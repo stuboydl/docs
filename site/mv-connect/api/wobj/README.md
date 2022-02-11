@@ -18,12 +18,12 @@ CALL WOBJ(OBJECT,ACTION,NODE,VALUE,OPTIONS,RERR)
 
 | Parameter | Description                                                                                                  |
 | --------- | ------------------------------------------------------------------------------------------------------------ |
-| OBJECT    | Internal representation of a JSON object. Must be passed each time `WOBJ` is called.                         |
 | ACTION    | String specifying the action you wish to perform on the JSON object (see [below](#wobj-actions)).            |
 | NODE      | Path to a `NODE` in the json object. Elements are separated by `.`. `NULL` is the root `NODE` of the object. |
-| VALUE     | Value passed to `SET` actions or returned by `GET` and other actions.                                        |
+| OBJECT    | Internal representation of a JSON object. Must be passed each time `WOBJ` is called.                         |
 | OPTIONS   | Options for an action (see [below](#wobj-options)). Separate multiple options with `@AM`.                    |
 | RERR      | Returned errors (error level in `RERR<1>`, error message in `RERR<2>`).                                      |
+| VALUE     | Value passed to `SET` actions or returned by `GET` and other actions.                                        |
 
 The table below defines the error levels returned in `RERR`.
 
@@ -37,31 +37,32 @@ The table below defines the error levels returned in `RERR`.
 
 | Action      | Description                                                                                                                                                    |
 | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| FROMSTRING  | Parse a JSON string for use by `WOBJ`. `VALUE` contains the JSON string to parse, and `OBJECT` returns the internal variable.                                  |
+| DELETE      | Delete a `NODE` in the JSON object.                                                                                                                            |
 | FROMJSON    | Alias for `FROMSTRING` (version 2.0)                                                                                                                           |
-| TOSTRING    | Return a JSON string format from the internal variable. The `VALUE` argument contains the returned JSON string.                                                |
-| TOJSON      | Alias for `TOSTRING` (Version 2.0)                                                                                                                             |
-| GET         | Returns the value of a `NODE` in the JSON object. If the `NODE` contains an object or an array, a JSON string is returned.                                     |
-| SET.STRING  | Set the value of a property in the JSON object to a `string`. `VALUE` contains the string.                                                                     |
-| SET.NUMBER  | Set the value of a property in the JSON object to a `number`. `VALUE` must contain a valid number.                                                             |
+| FROMSTRING  | Parse a JSON string for use by `WOBJ`. `VALUE` contains the JSON string to parse, and `OBJECT` returns the internal variable.                                  |
+| GET         | Returns the value of a `NODE` in the JSON object. If the `NODE` contains an object or an array, a JSON string is returned. The `VALUE` argument contains the returned JSON string. Same as TOSTRING |
+| KEYS        | Return a list of keys in a `NODE`. Keys are separated by `@SVM`.                                                                                               |
+| LENGTH      | Return the number of elements in a `NODE`. If a `NODE` contains a simple value, returns `1`. If a `NODE` is not found, or contains no elements, returns `0`.   |
+| SET         | Set the value of a property in the JSON object to a `string`. `VALUE` contains the string. Same as SET.STRING.                                                 |
+| SET.ARRAY   | Creates an array at specified `NODE`, or changes existing `NODE` to an array. Use this to build new arrays. `VALUE` must be a JSON string of the array.        |
 | SET.BOOLEAN | Set the value of a property in the JSON object to a `boolean`. `VALUE` must be `true` or `false`.                                                              |
 | SET.NULL    | Sets the value of a property in the JSON object to `NULL`. `VALUE` is not used.                                                                                |
+| SET.NUMBER  | Set the value of a property in the JSON object to a `number`. `VALUE` must contain a valid number.                                                             |
 | SET.OBJECT  | Creates an object at specified `NODE`, or changes existing `NODE` to an object. Use this to build nested objects. `VALUE` must be a JSON string of the object. |
-| SET.ARRAY   | Creates an array at specified `NODE`, or changes existing `NODE` to an array. Use this to build new arrays. `VALUE` must be a JSON string of the array.        |
-| DELETE      | Delete a `NODE` in the JSON object.                                                                                                                            |
-| LENGTH      | Return the number of elements in a `NODE`. If a `NODE` contains a simple value, returns `1`. If a `NODE` is not found, or contains no elements, returns `0`.   |
+| SET.STRING  | Set the value of a property in the JSON object to a `string`. `VALUE` contains the string.                                                                     |
+| TOJSON      | Alias for `TOSTRING` (Version 2.0)                                                                                                                             |
+| TOSTRING    | Return a JSON string format from the internal variable. The `VALUE` argument contains the returned JSON string.                                                |
 | TYPE        | Return the type of value or object in a `NODE`. Returns `NUMBER`, `STRING`, `BOOLEAN`, `NULL`, `OBJECT`, `ARRAY` or `UNDEFINED`.                               |
-| KEYS        | Return a list of keys in a `NODE`. Keys are separated by `@SVM`.                                                                                               |
 | VERSION     | Returns the version of `WOBJ`.                                                                                                                                 |
 
 #### WOBJ Options
 
 | Option   | Description                                                                                                                   |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| PRETTIFY | Use with the `TOSTRING` action to add indentation and new-lines to make output more readable.                                 |
 | DEBUG    | Use to display debug messages to the screen.                                                                                  |
-| UDO      | **Version 2.0.** `1` - turns on UDO support. `0` - turns off udo support even if `WOBJ.CONFIG` item is set to use UDO.        |
 | NATIVE   | **Version 2.0.** This turns off any platform object enhancements such as UDO support.  This overrides the `WOBJ.CONFIG` item. |
+| PRETTIFY | Use with the `TOSTRING` action to add indentation and new-lines to make output more readable.                                 |
+| UDO      | **Version 2.0.** `1` - turns on UDO support. `0` - turns off udo support even if `WOBJ.CONFIG` item is set to use UDO.        |
 
 #### WOBJ Config File (Version 2.0)
 
