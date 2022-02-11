@@ -67,6 +67,8 @@ where:
 
 The Alternate Syntax is useful when a single command line is required to do the copy.
 
+When copying from a hashed file to a directory type file, most illegal characters in the item IDs will automatically be converted. For example, on Linux, if an ID was ABC/DEF, the slash is illegal in a filename and will be converted on the fly to ABC]2fDEF. Unfortunately, this is not the case for empty string (null) item IDs. jBase COPY will simply halt in the middle of a copy with a meaningless message that requires user intervention. Warning - attempting to script this will provide hours of frustration and hair pulling.
+
 ### Examples
 
 ```
